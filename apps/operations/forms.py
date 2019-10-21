@@ -1,11 +1,7 @@
-# -*- coding:utf-8 -*-
-# @Desc : 
-# @Author : Administrator
-# @Date : 2019-08-06 14:38
-
 from django import forms
 from operations.models import UserAsk
 import re
+
 
 # 我要学习的ajax请求咨询form表单: 使用model模型类的字段验证规则
 # form表单与model模型的结合体django.forms.ModelForm
@@ -14,7 +10,7 @@ class UserAskForm(forms.ModelForm):
     class Meta:
         model = UserAsk
         # 1.使用模型类的部分字段
-        fields = ['name','phone','course']
+        fields = ['name', 'phone', 'course']
         # 2.使用模型类的所有字段
         # fields = "__all__"
         # 3.除了模型类的某些字段外,其他所有字段都使用
@@ -29,9 +25,8 @@ class UserAskForm(forms.ModelForm):
         else:  # 匹配失败
             raise forms.ValidationError('手机号码不合法')
 
+
 # 课程评论的数据验证
 class UserCommentForm(forms.Form):
-    content = forms.CharField(required=True,min_length=1,max_length=225)
+    content = forms.CharField(required=True, min_length=1, max_length=225)
     course_id = forms.IntegerField(required=True)
-
-

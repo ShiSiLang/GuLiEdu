@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # 文件大小类
 from django.utils import six
 

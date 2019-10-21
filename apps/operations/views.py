@@ -1,12 +1,11 @@
 from django.shortcuts import render
 from operations.forms import UserAskForm, UserCommentForm
 from operations.models import UserLove, UserComment
-from orgs.models import OrgInfo,TeacherInfo
+from orgs.models import OrgInfo, TeacherInfo
 from courses.models import CourseInfo
 from django.http import JsonResponse
 from tools.decorators import login_decorators
 
-# Create your views here.
 
 # 我要学习的ajax请求咨询
 def user_ask(request):
@@ -17,12 +16,13 @@ def user_ask(request):
     else:
         return JsonResponse({'status': 'fail', 'msg': '咨询失败!!!'})
 
+
 # 收藏类型功能(机构收藏,课程收藏,讲师收藏)
 @login_decorators
 def user_love(request):
     # 获取ajax请求参数
-    loveid = request.GET.get('loveid','')  # 收藏对象的ID
-    lovetype = request.GET.get('lovetype','')  # 收藏的类型
+    loveid = request.GET.get('loveid', '')  # 收藏对象的ID
+    lovetype = request.GET.get('lovetype', '')  # 收藏的类型
     # print(loveid,lovetype)
     if loveid and lovetype:  # 如果收藏id和收藏类型参数同时存在,首先去收藏表中查询有没有这个用户的收藏记录
 
@@ -35,7 +35,7 @@ def user_love(request):
         if int(lovetype) == 3:
             obj = TeacherInfo.objects.filter(id=int(loveid))[0]
 
-        love = UserLove.objects.filter(love_id=int(loveid), love_type=int(lovetype),love_man=request.user)
+        love = UserLove.objects.filter(love_id=int(loveid), love_type=int(lovetype), love_man=request.user)
         # print(love)
         if love:  # 在收藏表中存在这个用户的收藏记录
             # 判断这条收藏记录的状态
@@ -46,14 +46,14 @@ def user_love(request):
                 # 收藏数的动态变化
                 obj.love_num -= 1
                 obj.save()
-                return JsonResponse({'status':'ok', 'msg':'收藏'})
+                return JsonResponse({'status': 'ok', 'msg': '收藏'})
             else:  # 状态为假,表示之前收藏过,并且取消了,页面上显示为收藏,这次点击表示收藏
                 love[0].love_status = True
                 love[0].save()
                 # 收藏数的动态变化
                 obj.love_num += 1
                 obj.save()
-                return JsonResponse({'status':'ok', 'msg':'取消收藏'})
+                return JsonResponse({'status': 'ok', 'msg': '取消收藏'})
         else:  # 在收藏表中不存在这个用户的收藏记录
             userLove = UserLove()
             userLove.love_id = int(loveid)
@@ -64,13 +64,13 @@ def user_love(request):
             # 收藏数的动态变化
             obj.love_num += 1
             obj.save()
-            return JsonResponse({'status':'ok', 'msg':'取消收藏'})
+            return JsonResponse({'status': 'ok', 'msg': '取消收藏'})
     else:  # 收藏id和收藏类型参数不存在
-        return JsonResponse({'status':'fail', 'msg':'收藏失败'})
+        return JsonResponse({'status': 'fail', 'msg': '收藏失败'})
+
 
 # 用户评论
 def user_comment(request):
-
     user_comment_form = UserCommentForm(request.POST)
     if user_comment_form.is_valid():  # 验证评论数据
         # 获取评论信息
@@ -84,30 +84,30 @@ def user_comment(request):
         userComment.save()
 
         return JsonResponse({
-            'status':'ok',
-            'msg':'评论成功'
+            'status': 'ok',
+            'msg': '评论成功'
         })
     else:
         return JsonResponse({
-            'status':'fail',
-            'msg':'评论失败'
+            'status': 'fail',
+            'msg': '评论失败'
         })
+
 
 # 取消收藏类型功能(机构收藏1,课程收藏2,讲师收藏3)
 def user_deletelove(request):
-
-    loveid = request.GET.get('loveid','')
-    lovetype = request.GET.get('lovetype','')
+    loveid = request.GET.get('loveid', '')
+    lovetype = request.GET.get('lovetype', '')
 
     if loveid and lovetype:
-        love = UserLove.objects.filter(love_id=int(loveid),love_type=int(lovetype),love_man=request.user,love_status=True)
+        love = UserLove.objects.filter(love_id=int(loveid), love_type=int(lovetype), love_man=request.user,
+                                       love_status=True)
         if love:
             love[0].love_status = False
             love[0].save()
-            return JsonResponse({'status':'ok','msg':'取消收藏成功'})
+            return JsonResponse({'status': 'ok', 'msg': '取消收藏成功'})
         else:
             # pass
-            return JsonResponse({'status':'fail','msg':'取消收藏失败'})
+            return JsonResponse({'status': 'fail', 'msg': '取消收藏失败'})
     else:
-        return JsonResponse({'status':'fail','msg':'取消收藏失败'})
-
+        return JsonResponse({'status': 'fail', 'msg': '取消收藏失败'})

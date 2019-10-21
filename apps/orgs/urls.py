@@ -18,6 +18,4 @@ urlpatterns = [
     url(r'^teacher_list/$', views.teacher_list, name='teacher_list'),
     # 讲师详情页
     url(r'^teacher_detail/(\d+)/$', views.teacher_detail, name='teacher_detail'),
-
-
 ]

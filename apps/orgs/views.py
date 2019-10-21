@@ -4,7 +4,6 @@ from operations.models import UserLove
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 
-# Create your views here.
 
 # 机构列表
 def org_list(request):
@@ -13,10 +12,11 @@ def org_list(request):
     sort_orgs = all_orgs.order_by('-love_num')[:3]  # 按照收藏数降序排序机构并获取收藏数最高的三个机构
 
     # 全局搜索功能过滤
-    keywords = request.GET.get('keywords','')
+    keywords = request.GET.get('keywords', '')
     if keywords:
         # 根据机构名称,机构简介,机构详情模糊查找
-        all_orgs = all_orgs.filter(Q(name__icontains = keywords)|Q(desc__icontains=keywords)|Q(detail__icontains=keywords))
+        all_orgs = all_orgs.filter(
+            Q(name__icontains=keywords) | Q(desc__icontains=keywords) | Q(detail__icontains=keywords))
 
     # 根据机构类别进行筛选过滤
     cate = request.GET.get('cate', '')
@@ -57,7 +57,7 @@ def org_list(request):
         'cate': cate,
         'cityid': cityid,
         'sort': sort,
-        'keywords':keywords,
+        'keywords': keywords,
     })
 
 
@@ -164,21 +164,20 @@ def org_detail_teacher(request, org_id):
             'lovestatus': lovestatus,
         })
 
+
 # 讲师列表
 def teacher_list(request):
-
     # 查询所有讲师
     all_teachers = TeacherInfo.objects.all().order_by('id')
 
     # 全局搜索功能过滤
-    keywords = request.GET.get('keywords','')
+    keywords = request.GET.get('keywords', '')
     if keywords:
         # 根据讲师名称模糊查找
-        all_teachers = all_teachers.filter(name__icontains = keywords)
-
+        all_teachers = all_teachers.filter(name__icontains=keywords)
 
     # 排序-默认(id)和人气(点击量click_num)
-    sort = request.GET.get('sort','')
+    sort = request.GET.get('sort', '')
     if sort:
         all_teachers = all_teachers.order_by('-' + sort)
 
@@ -201,17 +200,17 @@ def teacher_list(request):
     # 讲师排行榜-根据点击量(click_num)或收藏量(love_num)排序
     sort_teacher = all_teachers.order_by('-love_num')[:3]
 
-    return render(request,'orgs/teachers-list.html',{
-        'all_teachers':all_teachers,
-        'pages':pages,
-        'sort':sort,
-        'sort_teacher':sort_teacher,
-        'keywords':keywords,
+    return render(request, 'orgs/teachers-list.html', {
+        'all_teachers': all_teachers,
+        'pages': pages,
+        'sort': sort,
+        'sort_teacher': sort_teacher,
+        'keywords': keywords,
     })
+
 
 # 讲师详情页
 def teacher_detail(request, teacher_id):
-
     # 根据id查询讲师的信息
     if teacher_id:
         teacher = TeacherInfo.objects.filter(id=int(teacher_id))[0]
@@ -228,15 +227,16 @@ def teacher_detail(request, teacher_id):
     loveorg = False  # 机构的收藏状态(页面显示)
     if request.user.is_authenticated():  # 验证用户是否登录
         # 根据讲师id,讲师类型,登录用户查询收藏表中是否存在这条记录
-        love = UserLove.objects.filter(love_id=int(teacher_id),love_type=3,love_status=True,love_man=request.user)
+        love = UserLove.objects.filter(love_id=int(teacher_id), love_type=3, love_status=True, love_man=request.user)
         if love:
             loveteacher = True
         # 根据要机构id,机构类型,登录用户查询收藏表中是否存在这条记录
-        love = UserLove.objects.filter(love_id=teacher.work_company.id,love_type=1,love_status=True,love_man=request.user)
+        love = UserLove.objects.filter(love_id=teacher.work_company.id, love_type=1, love_status=True,
+                                       love_man=request.user)
         if love:
             loveorg = True
 
-# 根据讲师信息查询该讲师的所有课程信息
+    # 根据讲师信息查询该讲师的所有课程信息
     all_courseinfo = teacher.courseinfo_set.all().order_by('id')
     page_num = request.GET.get('page_num', '')  # 获取url传递过来的页码数值,默认值为1,可自定义
     paginator = Paginator(all_courseinfo, 3)  # 创建分页对象,设置每页显示几条数据
@@ -253,11 +253,10 @@ def teacher_detail(request, teacher_id):
             # 参数页码值小于最小页码数或为空时: 获取第一页数据返回
             pages = paginator.page(1)
 
-    return render(request,'orgs/teacher-detail.html',{
-        'teacher':teacher,
-        'sort_teachers':sort_teachers,
-        'pages':pages,
-        'loveteacher':loveteacher,
-        'loveorg':loveorg,
+    return render(request, 'orgs/teacher-detail.html', {
+        'teacher': teacher,
+        'sort_teachers': sort_teachers,
+        'pages': pages,
+        'loveteacher': loveteacher,
+        'loveorg': loveorg,
     })
-

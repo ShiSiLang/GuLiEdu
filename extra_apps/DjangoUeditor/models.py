@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.admin import widgets as admin_widgets
 from .widgets import UEditorWidget, AdminUEditorWidget
@@ -35,6 +34,7 @@ class UEditorField(models.TextField):
 # 以下支持south
 try:
     from south.modelsinspector import add_introspection_rules
+
     add_introspection_rules([], ["^DjangoUeditor\.models\.UEditorField"])
 except:
     pass

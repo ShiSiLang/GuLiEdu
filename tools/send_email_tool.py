@@ -1,8 +1,3 @@
-# -*- coding:utf-8 -*-
-# @Desc : 
-# @Author : Administrator
-# @Date : 2019-07-31 15:54
-
 from django.core.mail import send_mail
 from django.conf import settings
 import string

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from importlib import import_module
 from django.http import HttpResponse
 from . import settings as USettings
@@ -11,7 +10,6 @@ from django.utils import six
 
 from django.utils.six.moves.urllib.request import urlopen
 from django.utils.six.moves.urllib.parse import urljoin
-
 
 if six.PY3:
     long = int
@@ -27,6 +25,7 @@ def get_path_format_vars():
         "datetime": datetime.datetime.now().strftime("%Y%m%d%H%M%S"),
         "rnd": random.randrange(100, 999)
     }
+
 
 # 保存上传的文件
 
@@ -136,7 +135,7 @@ def get_files(root_path, cur_path, allow_types=[]):
                         USettings.gSettings.MEDIA_URL,
                         os.path.join(
                             os.path.relpath(cur_path, root_path), item
-                            ).replace("\\", "/")),
+                        ).replace("\\", "/")),
                     "mtime": os.path.getmtime(item_fullname)
                 })
 
@@ -184,7 +183,8 @@ def UploadFile(request):
     }
     if action in upload_allow_type:
         allow_type = list(request.GET.get(upload_allow_type[
-                          action], USettings.UEditorUploadSettings.get(upload_allow_type[action], "")))
+                                              action],
+                                          USettings.UEditorUploadSettings.get(upload_allow_type[action], "")))
         if not upload_original_ext in allow_type:
             state = u"服务器不允许上传%s类型的文件。" % upload_original_ext
 
@@ -196,7 +196,7 @@ def UploadFile(request):
         "uploadvideo": "videoMaxSize"
     }
     max_size = long(request.GET.get(upload_max_size[
-                    action], USettings.UEditorUploadSettings.get(upload_max_size[action], 0)))
+                                        action], USettings.UEditorUploadSettings.get(upload_max_size[action], 0)))
     if max_size != 0:
         from .utils import FileSize
         MF = FileSize(max_size)
@@ -318,14 +318,14 @@ def catcher_remote_image(request):
 def get_output_path(request, path_format, path_format_var):
     # 取得输出文件的路径
     OutputPathFormat = (request.GET.get(path_format, USettings.UEditorSettings[
-                        "defaultPathFormat"]) % path_format_var).replace("\\", "/")
+        "defaultPathFormat"]) % path_format_var).replace("\\", "/")
     # 分解OutputPathFormat
     OutputPath, OutputFile = os.path.split(OutputPathFormat)
     OutputPath = os.path.join(USettings.gSettings.MEDIA_ROOT, OutputPath)
     # 如果OutputFile为空说明传入的OutputPathFormat没有包含文件名，因此需要用默认的文件名
     if not OutputFile:
         OutputFile = USettings.UEditorSettings[
-            "defaultPathFormat"] % path_format_var
+                         "defaultPathFormat"] % path_format_var
         OutputPathFormat = os.path.join(OutputPathFormat, OutputFile)
     if not os.path.exists(OutputPath):
         os.makedirs(OutputPath)

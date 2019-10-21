@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from . import settings as USettings
 from django.utils.six.moves.urllib.parse import urljoin
 
@@ -26,7 +25,7 @@ class UEditorEventHandler(object):
                 if event_code:
                     event_code = event_code % {"editor": editorID}
                     event_codes.append(jscode % {"editor": editorID, "event": event[
-                                       3:], "event_code": event_code})
+                                                                              3:], "event_code": event_code})
             except:
                 pass
 
@@ -77,11 +76,11 @@ class UEditorCommand(object):
         queryvalue_command = self.onExecuteQueryvalueCommand()
         cmds = []
         if cmd or ajax_cmd:
-            cmds.append( u"""execCommand: function() {
+            cmds.append(u"""execCommand: function() {
                     %(exec_cmd)s
                     %(exec_ajax_cmd)s
                 }
-            """ % {"exec_cmd": cmd, "exec_ajax_cmd": ajax_cmd},)
+            """ % {"exec_cmd": cmd, "exec_ajax_cmd": ajax_cmd}, )
 
         if queryvalue_command:
             cmds.append(u"""queryCommandValue:function(){

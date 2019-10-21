@@ -1,11 +1,21 @@
-# -*- coding: utf-8 -*-
 from django.conf import settings as gSettings  # 全局设置
 
 # 工具栏样式，可以添加任意多的模式
 TOOLBARS_SETTINGS = {
-    "besttome": [['source', 'undo', 'redo', 'bold', 'italic', 'underline', 'forecolor', 'backcolor', 'superscript', 'subscript', "justifyleft", "justifycenter", "justifyright", "insertorderedlist", "insertunorderedlist", "blockquote", 'formatmatch', "removeformat", 'autotypeset', 'inserttable', "pasteplain", "wordimage", "searchreplace", "map", "preview", "fullscreen"], ['insertcode', 'paragraph', "fontfamily", "fontsize", 'link', 'unlink', 'insertimage', 'insertvideo', 'attachment', 'emotion', "date", "time"]],
-    "mini": [['source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor', '|', 'link', 'unlink', '|', 'simpleupload', 'attachment']],
-    "normal": [['source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'removeformat', 'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor', '|', 'link', 'unlink', '|', 'simpleupload', 'emotion', 'attachment', '|', 'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols']]
+    "besttome": [
+        ['source', 'undo', 'redo', 'bold', 'italic', 'underline', 'forecolor', 'backcolor', 'superscript', 'subscript',
+         "justifyleft", "justifycenter", "justifyright", "insertorderedlist", "insertunorderedlist", "blockquote",
+         'formatmatch', "removeformat", 'autotypeset', 'inserttable', "pasteplain", "wordimage", "searchreplace", "map",
+         "preview", "fullscreen"],
+        ['insertcode', 'paragraph', "fontfamily", "fontsize", 'link', 'unlink', 'insertimage', 'insertvideo',
+         'attachment', 'emotion', "date", "time"]],
+    "mini": [['source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'formatmatch', 'autotypeset', '|',
+              'forecolor', 'backcolor', '|', 'link', 'unlink', '|', 'simpleupload', 'attachment']],
+    "normal": [['source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'removeformat', 'formatmatch',
+                'autotypeset', '|', 'forecolor', 'backcolor', '|', 'link', 'unlink', '|', 'simpleupload', 'emotion',
+                'attachment', '|', 'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow',
+                'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows',
+                'splittocols']]
 }
 
 # 默认的Ueditor设置，请参见ueditor.config.js
@@ -85,7 +95,8 @@ UEditorUploadSettings = {
     "fileManagerListSize": 30,  # 每次列出文件数量 */
     "fileManagerAllowFiles": [
         ".png", ".jpg", ".jpeg", ".gif", ".bmp", ".tif", ".psd"
-        ".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg", ".mpg",
+                                                         ".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg",
+        ".mpg",
         ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid",
         ".rar", ".zip", ".tar", ".gz", ".7z", ".bz2", ".cab", ".iso",
         ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".pdf", ".txt", ".md", ".xml",
